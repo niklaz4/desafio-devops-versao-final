@@ -1,0 +1,38 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out the repository
+      uses: actions/checkout@v2
+
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.5.4
+      with:
+        ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+
+    - name: Print SSH key fingerprint
+      run: ssh-add -l
+
+    - name: Create target directory on EC2
+      run: |
+        ssh -o StrictHostKeyChecking=no ec2-user@3.147.49.221 "mkdir -p /home/ec2-user/desafio-devops-versao-final"
+
+    - name: Copy files via SCP
+      run: |
+        scp -o StrictHostKeyChecking=no -r nginx.conf index.php docker-compose.yml Dockerfile Dockerfile.mysql ec2-user@3.147.49.221:/home/ec2-user/desafio-devops-versao-final
+
+    - name: SSH and deploy
+      run: |
+        ssh -o StrictHostKeyChecking=no ec2-user@3.147.49.221 << 'EOF'
+          cd /home/ec2-user/desafio-devops-versao-final
+          sudo docker-compose down
+          sudo docker-compose up -d
+        EOF
