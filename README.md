@@ -68,3 +68,8 @@ Para criar um deploy automático no Github Actions, com o objetivo de automatiza
 <li>Dê um nome para o Container-1 e insira o repositório criado anteriormente no Elastic Container Registry. Lembre-se de deixar a porta padrão como 80 (HTTP). Clique em Next;</li>
 <li>Na próxima página, você deverá definir o ambiente. Nesse caso, marque AWS Fargate e AWS EC2 instances. Para os Tarks roles, será necessário retornar ao IAM, clicar em Roles. Na nova página, deve-se digitar no campo de busca “container”, e aparecerá a opção “Elastic Container Service”. Em seguida, marque a opção Elastic Container Service Task. Clique em Next, e então digite “AMAZONECSTASK” e assinale a opção “AmazonECSTaskExecutionRolePolicy”. Clique em Next novamente e dê um nome para Role.</li>
 <li>Volte para a aba do ECS, e escolha a Task Role recém-criada em “Task Execution Role”;</li>
+<li>Role até o final da página e clique em criate;</li>
+<li>Pronto, agora será necessário criar um Cluster;</li>
+<li>Basta clicar em Create Cluster e deixar as configurações padrões;</li>
+<li>Após criar o Cluster, vá em Create Service. A maioria das configurações aqui são padrões, a única coisa que deve ser alterado é o “Desired Tasks”, que deve ser 2. Insira os nomes dos security groups e insira o Load Balancer criado anteriormente para este projeto;</li>
+<li>Clique em Create. Pronto, os task service foram concluídos;</li></p><br>
